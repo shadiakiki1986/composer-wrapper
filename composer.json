@@ -1,5 +1,5 @@
 {
-    "name": "shadi/test-composer",
+    "name": "shadiakiki1986/composer-wrapper",
     "require": {
         "composer/composer": "^1.3"
     },
