@@ -4,7 +4,6 @@ namespace shadiakiki1986;
 
 class ComposerWrapperTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testLocal()
     {
       $cw = new ComposerWrapper();
@@ -19,7 +18,13 @@ class ComposerWrapperTest extends \PHPUnit_Framework_TestCase
 
     public function testCanSpecifyAComposerJson()
     {
-      $cw = new ComposerWrapper(__DIR__.'/../vendor/composer/composer/composer.json');
+      $io = new \Composer\IO\NullIO();
+      $factory = new \Composer\Factory();
+      $composer = $factory->createComposer(
+        $io,
+        __DIR__.'/../vendor/composer/composer/composer.json'
+      );
+      $cw = new ComposerWrapper($composer);
       $packages = $cw->showDirect();
       $expected = [
         "symfony/process"=>"3.2.1.0",

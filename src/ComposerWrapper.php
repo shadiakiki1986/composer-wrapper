@@ -2,34 +2,32 @@
 
 namespace shadiakiki1986;
 
-# require_once 'vendor/autoload.php';
-
-use Composer\Factory;
-use Composer\IO\NullIO;
 use Composer\Repository\PlatformRepository;
 
+// code below copied from https://github.com/composer/composer/blob/master/src/Composer/Command/ShowCommand.php
 class ComposerWrapper {
 
   // same parameter as in composer/composer/src/Composer/Factory.php function createComposer
-  function __construct(string $localConfig=null) {
-    $this->localConfig = $localConfig;
+  function __construct(\Composer\Composer $composer=null) {
+    if(is_null($composer)) {
+      $io = new \Composer\IO\NullIO();
+      $factory = new \Composer\Factory();
+      $composer = $factory->createComposer($io);
+    }
+    $this->composer = $composer;
   }
 
   public function showDirect()
   {
-    $io = new NullIO();
-    $factory = new Factory();
-    $composer = $factory->createComposer($io,$this->localConfig);
-
     // init repos
     $platformOverrides = array();
-    if ($composer) {
-        $platformOverrides = $composer->getConfig()->get('platform') ?: array();
+    if ($this->composer) {
+        $platformOverrides = $this->composer->getConfig()->get('platform') ?: array();
     }
     $platformRepo = new PlatformRepository(array(), $platformOverrides);
     $phpVersion = $platformRepo->findPackage('php', '*')->getVersion();
 
-    $repos = $installedRepo = $composer->getRepositoryManager()->getLocalRepository();
+    $repos = $installedRepo = $this->composer->getRepositoryManager()->getLocalRepository();
 
     if ($repos instanceof CompositeRepository) {
         $repos = $repos->getRepositories();
@@ -40,7 +38,7 @@ class ComposerWrapper {
     // list packages
     $packages = array();
 
-    $packageListFilter = $this->getRootRequires($composer);
+    $packageListFilter = $this->getRootRequires();
 
     foreach ($repos as $repo) {
         if ($repo === $platformRepo) {
@@ -86,9 +84,9 @@ class ComposerWrapper {
     return($packages);
   }
 
-  private function getRootRequires($composer)
+  private function getRootRequires()
   {
-      $rootPackage = $composer->getPackage();
+      $rootPackage = $this->composer->getPackage();
       return array_map(
           'strtolower',
           array_keys(array_merge($rootPackage->getRequires(), $rootPackage->getDevRequires()))

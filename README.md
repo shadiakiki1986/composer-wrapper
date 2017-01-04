@@ -11,10 +11,30 @@ Answers SO [Run composer with a PHP script in browser](http://stackoverflow.com/
 `composer require shadiakiki1986/composer-wrapper`
 
 # Usage
-Example: Get the output of `composer show --direct` as an array in php:
+
+## Example 1
+Get the output of `composer show --direct` as an array in php:
 ```php
 require_once 'vendor/autoload.php';
+
 $cw = new \shadiakiki1986\ComposerWrapper();
 $packages = $cw->showDirect();
 ```
 This will give an associative array with package names as keys and versions as values, e.g. `['composer/composer'=>'1.3.0.0']`
+
+
+
+## Example 2
+As above, but with specifying a different project composer.json:
+```php
+require_once 'vendor/autoload.php';
+
+// note that the below createComposer function supports passing in a ''localConfig'' parameter, as well as ''cwd'' parameter
+// Check https://github.com/composer/composer/blob/master/src/Composer/Factory.php#L263
+$io = new \Composer\IO\NullIO();
+$factory = new \Composer\Factory();
+$composer = $factory->createComposer($io,'/path/to/another/composer.json');
+
+$cw = new \shadiakiki1986\ComposerWrapper($composer);
+$packages = $cw->showDirect();
+```
