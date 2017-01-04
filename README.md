@@ -9,6 +9,7 @@ I should probably choose a different name, but I'm too lazy now
 `composer require shadiakiki1986/composer-wrapper`
 
 # Usage
+Example: Get the output of `composer show --direct` as an array in php:
 ```php
 $cw = new ComposerWrapper();
 $packages = $cw->showDirect();
