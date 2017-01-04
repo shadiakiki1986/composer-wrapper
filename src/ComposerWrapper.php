@@ -10,11 +10,16 @@ use Composer\Repository\PlatformRepository;
 
 class ComposerWrapper {
 
+  // same parameter as in composer/composer/src/Composer/Factory.php function createComposer
+  function __construct(string $localConfig=null) {
+    $this->localConfig = $localConfig;
+  }
+
   public function showDirect()
   {
     $io = new NullIO();
     $factory = new Factory();
-    $composer = $factory->createComposer($io);
+    $composer = $factory->createComposer($io,$this->localConfig);
 
     // init repos
     $platformOverrides = array();
