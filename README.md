@@ -11,7 +11,8 @@ I should probably choose a different name, but I'm too lazy now
 # Usage
 Example: Get the output of `composer show --direct` as an array in php:
 ```php
-$cw = new ComposerWrapper();
+require_once 'vendor/autoload.php';
+$cw = new \shadiakiki1986\ComposerWrapper();
 $packages = $cw->showDirect();
 ```
 This will give an associative array with package names as keys and versions as values, e.g. `['composer/composer'=>'1.3.0.0']`
