@@ -5,6 +5,8 @@ This is different than [eviweb/composer-wrapper](composer require eviweb/compose
 
 I should probably choose a different name, but I'm too lazy now
 
+Answers SO [Run composer with a PHP script in browser](http://stackoverflow.com/a/41464759/4126114)
+
 # Installation
 `composer require shadiakiki1986/composer-wrapper`
 
