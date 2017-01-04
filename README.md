@@ -1,4 +1,4 @@
-# composer-wrapper
+# composer-wrapper [![Build Status](https://travis-ci.org/shadiakiki1986/composer-wrapper.svg?branch=master)](https://travis-ci.org/shadiakiki1986/composer-wrapper)
 Use composer as a library in your php project
 
 This is different than [eviweb/composer-wrapper](composer require eviweb/composer-wrappe://github.com/eviweb/composer-wrapper)
